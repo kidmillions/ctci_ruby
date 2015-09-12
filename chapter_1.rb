@@ -1,10 +1,12 @@
 # 1.1 Implement an algorithm to determine if a string has all unique characters
 # 1.3 Write a method to determine if one string is a permutation of another.
 # 1.5 Compress string, return original string if longer
-# 1.8 cjecl tp see of pme stromg os the rotation of another
+# 1.7 Set entire columns and rows to 0 if given value in matrix is zero
+# 1.8 check to see of one string is the rotation of another
 
 
 require 'stringio'
+require 'matrix'
 
 class String
   def is_all_uniq?
@@ -82,7 +84,7 @@ class String
     end
   end
 
-  def isRotated?(str)
+  def is_rotated?(str)
     if (length == str.length && length > 0)
       test_string = self + self
       return test_string.include?(str)
@@ -91,9 +93,35 @@ class String
     end
   end
 
+end
 
 
+class Matrix
+  def set_zeroes
+      rows = Array.new(row_count, false)
+      columns = Array.new(column_count, false)
 
 
+      each_with_index do |e, row, col|
+        if e == 0
+          rows[row] = true
+          columns[col] = true
+        end
+      end
 
+      mat = to_a
+
+      mat.each_with_index do |row, i|
+        row.collect!.with_index do |item, j|
+          if (rows[i] || columns[j])
+            0
+          else
+            item
+          end
+        end
+      end
+
+
+      Matrix[mat]
+  end
 end
