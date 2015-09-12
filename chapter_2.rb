@@ -1,6 +1,6 @@
 # Implementing a linked list
 # 2.1 remove duplicates from unsorted Linked list
-
+# 2.2 find the kth to last element in a singly linked list
 
 class Node
   def initialize (data)
@@ -43,8 +43,8 @@ class LinkedList
   def size
     if @head
       cur_node = @head
-      count = 1
-      while cur_node.next != nil
+      count = 0
+      while cur_node != nil
         cur_node = cur_node.next
         count += 1
       end
@@ -58,16 +58,19 @@ class LinkedList
     vals = Hash.new(false)
     if @head
       cur_node = @head
+      prev_node = nil
 
-      while cur_node.next != nil
-        if vals[cur_node.data]
+      while cur_node != nil
+        if vals[cur_node.data] == true
+          puts "found dup"
           prev_node.next = cur_node.next
         else
-          vals[cur_node.data] == true
+          vals[cur_node.data] = true
         end
         prev_node = cur_node
         cur_node = cur_node.next
       end
+
     end
 
     self
@@ -101,6 +104,25 @@ class LinkedList
     end
 
     self
+
+  end
+
+
+  def nth_to_last (k)
+    current_node = @head
+    runner = @head
+
+    k.times do
+      runner = runner.next
+    end
+
+    while runner.next != nil
+      runner = runner.next
+      current_node = current_node.next
+    end
+
+    current_node.data
+
 
   end
 
