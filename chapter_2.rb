@@ -1,11 +1,22 @@
 # Implementing a linked list
 # 2.1 remove duplicates from unsorted Linked list
 # 2.2 find the kth to last element in a singly linked list
+# 2.3 delete a node
 
 class Node
   def initialize (data)
     @data = data
     @next = nil
+  end
+
+  def delete
+    unless @next == nil
+      next_node = @next
+      @data = next_node.data
+      @next = next_node.next
+      return true
+    end
+    return false
   end
 
   attr_accessor :next
@@ -19,6 +30,8 @@ class LinkedList
     @head = nil
     @tail = nil
   end
+
+  attr_reader :head, :tail
 
   def add_to_tail(value)
     node = Node.new(value)
@@ -123,6 +136,26 @@ class LinkedList
 
     current_node.data
 
+
+  end
+
+  def partition (x)
+    before = LinkedList.new
+    after = LinkedList.new
+
+    cur_node = @head
+    while cur_node != nil
+      if cur_node.data <= x
+        before.add_to_tail(cur_node.data)
+      else
+        after.add_to_tail(cur_node.data)
+      end
+      cur_node = cur_node.next
+    end
+
+    before.tail.next = after.head
+
+    before.head
 
   end
 
