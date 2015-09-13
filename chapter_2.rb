@@ -159,6 +159,37 @@ class LinkedList
 
   end
 
+  def add (other_list)
+      sum = LinkedList.new
+      one_node = @head
+      other_node = other_list.head
+      leftover = 0
+
+      while (one_node != nil && other_node != nil)
+        sum.add_to_tail((one_node.data + other_node.data) % 10 + leftover)
+
+        leftover = ((one_node.data.to_f + other_node.data.to_f) / 10).floor
+
+        one_node = one_node.next
+        other_node = other_node.next
+      end
+
+      if (one_node != nil)
+        while (one_node != nil)
+          sum.add_to_tail(one_node.data + leftover)
+          leftover = 0
+          one_node = one_node.next
+        end
+      elsif (other_node != nil)
+        while (other_node != nil)
+          sum.add_to_tail(other_node.data + leftover)
+          leftover = 0
+          other_node = other_node.next
+        end
+      end
+
+      sum
+  end
 
 
 end
