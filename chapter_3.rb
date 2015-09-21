@@ -45,7 +45,7 @@ class Stack
   end
 
   def peek
-    @top
+    @top.data
   end
 
   def show_min
@@ -60,6 +60,10 @@ class Stack
       cur_node = cur_node.next
     end
     count
+  end
+
+  def is_empty?
+    size == 0
   end
 
 end
@@ -114,9 +118,6 @@ class StackForSet < Stack
 
  end
 
- def is_empty?
-   size == 0
- end
 end
 
 class SetOfStacks
@@ -182,5 +183,57 @@ class SetOfStacks
   #
   # end
 
+
+end
+
+
+
+
+# Tower of Hanoi problem
+class Tower
+  def initialize(num_disks)
+    @disks = Stack.new
+    @index = num_disks
+  end
+
+  def index
+    @index
+  end
+
+  def add(data)
+    if (!@disks.is_empty? && @disks.peek <= data)
+      puts "error placing disk #{data}"
+    else
+      @disks.push(data)
+    end
+  end
+
+  def move_top_to(tower)
+    t = @disks.pop
+    tower.add(t)
+    puts "Moved disk #{t} from #{index()} to #{tower.index()}"
+  end
+
+  def move_disks(num, destination, buffer)
+     if (num > 0)
+       move_disks(num - 1, buffer, destination)
+       move_top_to(destination)
+       buffer.move_disks(num - 1, destination, self)
+     end
+  end
+
+end
+
+def hanoi_tower(n)
+  towers = []
+  3.times do |i|
+    towers.push(Tower.new(i))
+  end
+
+  n.times do |i|
+    towers[0].add(n - i)
+  end
+
+  towers[0].move_disks(n, towers[2], towers[1])
 
 end
