@@ -2,17 +2,9 @@
 # 3.1 Implement 3 stacks with a single array
 # 3.2 function min to return the min element
 # 3.3 SetOfStacks adds a new stack once capacity is exceeded
+# 3.6 Sort a stack in ascending order
 
-class Node
-  def initialize (data)
-    @data = data
-    @next = nil
-  end
-
-  attr_accessor :next
-  attr_reader :data
-end
-
+require('./chapter_2.rb')
 
 
 class Stack
@@ -64,6 +56,28 @@ class Stack
 
   def is_empty?
     size == 0
+  end
+
+  def sort!
+    buffer_stack = Stack.new
+    while (!is_empty?)
+      tmp = pop
+      puts "checking value #{tmp}"
+      while(tmp > buffer_stack.peek)
+        puts "popping #{buffer_stack.peek} off the buffer to make way for #{tmp}"
+        push(buffer_stack.pop)
+      end
+      puts "#{tmp} should be <= #{buffer_stack.peek}"
+      buffer_stack.push(tmp)
+    end
+
+
+    while(!buffer_stack.is_empty?)
+      push(buffer_stack.pop)
+    end
+
+    self
+
   end
 
 end
@@ -275,3 +289,96 @@ class MyQueue
   end
 
 end
+
+
+# 3.7 animal shelter problem
+
+class Animal
+  def initialize(name)
+    @name = name
+    @order = nil
+  end
+
+  def set_order(order)
+    @order = order
+  end
+
+  def get_order
+    @order
+  end
+
+  def is_older_than(other_animal)
+    @order < other_animal.get_order
+  end
+
+end
+
+class Dog < Animal
+  @@type = "dog"
+  attr_reader :type
+  def get_type
+    @@type
+  end
+end
+
+class Cat < Animal
+  @@type = "cat"
+  def get_type
+    @@type
+  end
+end
+
+class Shelter
+  def initialize
+    @cats = LinkedList.new
+    @dogs = LinkedList.new
+    @order = 0
+  end
+
+  def enqueue(animal)
+    animal.set_order(@order)
+    @order += 1
+    if animal.get_type == "dog"
+      @dogs.add_to_tail(animal)
+    else
+      @cats.add_to_tail(animal)
+    end
+  end
+
+  def dequeue_any
+    if @dogs.size == 0
+      dequeue_cat
+    elsif @cats.size == 0
+      dequeue_dog
+    else
+      dog = @dogs.peek
+      cat = @cats.peek
+      if (dog.is_older_than(cat))
+        dequeue_dog
+      else
+        dequeue_cat
+      end
+    end
+  end
+
+  def dequeue_cat
+    @cats.remove_from_head
+  end
+
+  def dequeue_dog
+    @dogs.remove_from_head
+  end
+
+end
+
+
+s = Shelter.new
+d = Dog.new('Sparky')
+e = Cat.new('Fluffy')
+f = Dog.new('Barky')
+g = Cat.new('Snuggles')
+
+s.enqueue(d)
+s.enqueue(e)
+s.enqueue(f)
+s.enqueue(g)

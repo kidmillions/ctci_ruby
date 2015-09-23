@@ -191,8 +191,10 @@ class LinkedList
       sum
   end
 
+  def peek
+    @head.data
+  end
 
-  
 
 
 end
