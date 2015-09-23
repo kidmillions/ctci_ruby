@@ -237,3 +237,41 @@ def hanoi_tower(n)
   towers[0].move_disks(n, towers[2], towers[1])
 
 end
+
+
+# 3.5 myQueue class that implements queue with two stacks
+
+
+class MyQueue
+  def initialize
+    @inbox = Stack.new
+    @outbox = Stack.new
+  end
+
+  def size
+    @inbox.size + @outbox.size
+  end
+
+  def enqueue(val)
+    @inbox.push(val)
+  end
+
+  def shift_stacks
+    if @outbox.is_empty?
+      while(@inbox.is_empty? == false)
+        @outbox.push(@inbox.pop)
+      end
+    end
+  end
+
+  def peek
+    shift_stacks()
+    @outbox.peek
+  end
+
+  def dequeue
+    shift_stacks()
+    @outbox.pop
+  end
+
+end
