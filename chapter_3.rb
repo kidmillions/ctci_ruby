@@ -370,15 +370,3 @@ class Shelter
   end
 
 end
-
-
-s = Shelter.new
-d = Dog.new('Sparky')
-e = Cat.new('Fluffy')
-f = Dog.new('Barky')
-g = Cat.new('Snuggles')
-
-s.enqueue(d)
-s.enqueue(e)
-s.enqueue(f)
-s.enqueue(g)
