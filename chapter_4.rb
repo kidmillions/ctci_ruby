@@ -45,6 +45,10 @@ class BinarySearchTree
     @right = nil
   end
 
+  def get_data
+    @data
+  end
+
   def insert(val)
     if val < @data
       if @left == nil
@@ -72,7 +76,7 @@ class BinarySearchTree
       end
     end
     if @right != nil
-      @left.depth_first_log do |e|
+      @right.depth_first_log do |e|
         yield(e)
       end
     end
