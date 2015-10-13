@@ -1,3 +1,6 @@
+# 4.1 find if binary search tree is balanced
+
+
 class Tree
   def initialize(data, parent = nil)
     @data = data
@@ -80,6 +83,47 @@ class BinarySearchTree
         yield(e)
       end
     end
+  end
+
+  def get_left
+    @left
+  end
+
+  def get_right
+    @right
+  end
+
+  def get_data
+    @data
+  end
+
+
+  def self.check_height(tree)
+    if tree === nil
+      return 0
+    else
+      leftHeight = BinarySearchTree.check_height(tree.get_left)
+      if leftHeight == -1
+        return -1
+      end
+
+      rightHeight = BinarySearchTree.check_height(tree.get_right)
+      if rightHeight == -1
+        return -1
+      end
+
+      diff = (leftHeight - rightHeight).abs
+      if diff > 1
+        return -1
+      else
+        return [leftHeight, rightHeight].max + 1
+      end
+    end
+  end
+
+
+  def is_balanced?
+    BinarySearchTree.check_height(self) != -1
   end
 
 end
