@@ -1,5 +1,5 @@
 # 4.1 find if binary search tree is balanced
-
+# 4.2 find if there is a route between two nodes
 
 class Tree
   def initialize(data, parent = nil)
@@ -124,6 +124,76 @@ class BinarySearchTree
 
   def is_balanced?
     BinarySearchTree.check_height(self) != -1
+  end
+
+end
+
+
+class Vertex
+  def initialize(data)
+    @data = data
+    @edges = Hash.new
+  end
+
+  def get_data
+    @data
+  end
+
+  def add_edge(other)
+    @edges[other.get_data] = Edge.new(other)
+  end
+
+  attr_accessor :edges
+end
+
+class Edge
+  def initialize(data)
+    @next = data
+  end
+
+  attr_reader :next
+
+end
+
+
+class Graph
+  def initialize()
+    @vertexes = Hash.new
+  end
+
+  def add_vertex(vert)
+    @vertexes[vert.get_data] = vert
+  end
+
+  def add_edges(from_vert, to_vert)
+    if !@vertexes[from_vert.get_data] || !@vertexes[to_vert.get_data]
+      raise 'Vertices are not in graph.'
+    end
+    from_vert.add_edge(to_vert)
+  end
+
+  def is_reachable(from_vert, to_vert)
+      found = false
+      visited = Hash.new(false)
+      visit_nodes = lambda do |cur_node|
+
+        if visited[cur_node.get_data]
+          return
+        end
+        visited[cur_node.get_data] = true
+
+        if cur_node == to_vert
+          found = true
+          return
+        end
+
+        cur_node.edges.each do |key, value|
+          visit_nodes.call(value.next)
+        end
+      end
+
+      visit_nodes.call(from_vert)
+      found
   end
 
 end
