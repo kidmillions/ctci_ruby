@@ -1,5 +1,6 @@
 # 4.1 find if binary search tree is balanced
 # 4.2 find if there is a route between two nodes
+#4.3 create a binary search tree with minimal height based on a sorted uniq array
 
 class Tree
   def initialize(data, parent = nil)
@@ -196,4 +197,31 @@ class Graph
       found
   end
 
+end
+
+# TODO: currently unbalanced, WTF
+class Array
+  def make_binary_tree
+    arr = self.uniq.sort
+    middle_index = (arr.length / 2).floor
+    b = BinarySearchTree.new(arr[middle_index])
+
+    make_tree = lambda do |array|
+      if array.length == 1
+        b.insert(array[0])
+        return
+      end
+      p array
+      p b
+      middle_index = (array.length / 2).floor
+      b.insert(array[middle_index])
+      make_tree.call(array.slice(0, middle_index))
+      make_tree.call(array.slice(middle_index, array.length))
+    end
+
+    make_tree.call(arr.slice(0, middle_index))
+    make_tree.call(arr.slice(middle_index, arr.length))
+
+    b
+  end
 end
