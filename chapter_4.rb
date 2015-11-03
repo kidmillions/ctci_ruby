@@ -208,8 +208,7 @@ class Array
 
     make_tree = lambda do |array|
       if array.length == 1
-        b.insert(array[0])
-        return
+        return b.insert(array[0])
       end
       p array
       p b
@@ -221,7 +220,9 @@ class Array
 
     make_tree.call(arr.slice(0, middle_index))
     make_tree.call(arr.slice(middle_index, arr.length))
-
-    b
   end
+
+  make_tree.call(arr)
+
+
 end
